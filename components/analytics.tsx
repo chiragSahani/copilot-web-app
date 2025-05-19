@@ -33,6 +33,7 @@ import { apiClient } from "@/lib/api/api-client"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, AlertCircle } from "lucide-react"
+import { useMobile } from "@/hooks/use-mobile"
 
 // Animation variants
 const container = {
@@ -66,6 +67,7 @@ export function Analytics() {
   const [analyticsData, setAnalyticsData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const isMobile = useMobile()
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -142,11 +144,11 @@ export function Analytics() {
   return (
     <motion.div className="space-y-6" variants={container} initial="hidden" animate="show">
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid grid-cols-4 mb-4">
+        <TabsList className={`grid ${isMobile ? "grid-cols-2" : "grid-cols-4"} mb-4`}>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="conversations">Conversations</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
-          <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>
+          {!isMobile && <TabsTrigger value="performance">Performance</TabsTrigger>}
+          {!isMobile && <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -466,200 +468,210 @@ export function Analytics() {
           </div>
         </TabsContent>
 
-        <TabsContent value="performance" className="space-y-4">
-          <motion.div variants={item}>
-            <Card className="hover-lift transition-all">
-              <CardHeader>
-                <CardTitle>Response Time</CardTitle>
-                <CardDescription>Average response time in minutes</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={analyticsData?.responseTimeData || []}>
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Line
-                        type="monotone"
-                        dataKey="time"
-                        name="Minutes"
-                        stroke="hsl(var(--primary))"
-                        activeDot={{ r: 8 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+        {!isMobile && (
+          <>
+            <TabsContent value="performance" className="space-y-4">
+              <motion.div variants={item}>
+                <Card className="hover-lift transition-all">
+                  <CardHeader>
+                    <CardTitle>Response Time</CardTitle>
+                    <CardDescription>Average response time in minutes</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[400px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={analyticsData?.responseTimeData || []}>
+                          <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                          <XAxis dataKey="date" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <Line
+                            type="monotone"
+                            dataKey="time"
+                            name="Minutes"
+                            stroke="hsl(var(--primary))"
+                            activeDot={{ r: 8 }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-          <motion.div variants={item}>
-            <Card className="hover-lift transition-all">
-              <CardHeader>
-                <CardTitle>Customer Satisfaction</CardTitle>
-                <CardDescription>Feedback distribution</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={[
-                          {
-                            name: "Very Satisfied",
-                            value: analyticsData?.satisfactionData?.verySatisfied || 40,
-                          },
-                          { name: "Satisfied", value: analyticsData?.satisfactionData?.satisfied || 30 },
-                          { name: "Neutral", value: analyticsData?.satisfactionData?.neutral || 15 },
-                          {
-                            name: "Dissatisfied",
-                            value: analyticsData?.satisfactionData?.dissatisfied || 10,
-                          },
-                          {
-                            name: "Very Dissatisfied",
-                            value: analyticsData?.satisfactionData?.veryDissatisfied || 5,
-                          },
-                        ]}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={150}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                      >
-                        {[
-                          {
-                            name: "Very Satisfied",
-                            value: analyticsData?.satisfactionData?.verySatisfied || 40,
-                          },
-                          { name: "Satisfied", value: analyticsData?.satisfactionData?.satisfied || 30 },
-                          { name: "Neutral", value: analyticsData?.satisfactionData?.neutral || 15 },
-                          {
-                            name: "Dissatisfied",
-                            value: analyticsData?.satisfactionData?.dissatisfied || 10,
-                          },
-                          {
-                            name: "Very Dissatisfied",
-                            value: analyticsData?.satisfactionData?.veryDissatisfied || 5,
-                          },
-                        ].map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, "Percentage"]} />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </TabsContent>
+              <motion.div variants={item}>
+                <Card className="hover-lift transition-all">
+                  <CardHeader>
+                    <CardTitle>Customer Satisfaction</CardTitle>
+                    <CardDescription>Feedback distribution</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[400px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={[
+                              {
+                                name: "Very Satisfied",
+                                value: analyticsData?.satisfactionData?.verySatisfied || 40,
+                              },
+                              { name: "Satisfied", value: analyticsData?.satisfactionData?.satisfied || 30 },
+                              { name: "Neutral", value: analyticsData?.satisfactionData?.neutral || 15 },
+                              {
+                                name: "Dissatisfied",
+                                value: analyticsData?.satisfactionData?.dissatisfied || 10,
+                              },
+                              {
+                                name: "Very Dissatisfied",
+                                value: analyticsData?.satisfactionData?.veryDissatisfied || 5,
+                              },
+                            ]}
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={150}
+                            fill="#8884d8"
+                            dataKey="value"
+                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          >
+                            {[
+                              {
+                                name: "Very Satisfied",
+                                value: analyticsData?.satisfactionData?.verySatisfied || 40,
+                              },
+                              { name: "Satisfied", value: analyticsData?.satisfactionData?.satisfied || 30 },
+                              { name: "Neutral", value: analyticsData?.satisfactionData?.neutral || 15 },
+                              {
+                                name: "Dissatisfied",
+                                value: analyticsData?.satisfactionData?.dissatisfied || 10,
+                              },
+                              {
+                                name: "Very Dissatisfied",
+                                value: analyticsData?.satisfactionData?.veryDissatisfied || 5,
+                              },
+                            ].map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip formatter={(value) => [`${value}%`, "Percentage"]} />
+                          <Legend />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </TabsContent>
 
-        <TabsContent value="ai-insights" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <motion.div variants={item}>
-              <Card className="hover-lift transition-all">
-                <CardHeader>
-                  <CardTitle>AI Model Performance</CardTitle>
-                  <CardDescription>Comparison between current and previous model</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[400px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart outerRadius={150} data={aiModelData}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="subject" />
-                        <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                        <Radar name="Current Model" dataKey="A" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
-                        <Radar name="Previous Model" dataKey="B" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.6} />
-                        <Legend />
-                        <Tooltip />
-                      </RadarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <TabsContent value="ai-insights" className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <motion.div variants={item}>
+                  <Card className="hover-lift transition-all">
+                    <CardHeader>
+                      <CardTitle>AI Model Performance</CardTitle>
+                      <CardDescription>Comparison between current and previous model</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <RadarChart outerRadius={150} data={aiModelData}>
+                            <PolarGrid />
+                            <PolarAngleAxis dataKey="subject" />
+                            <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                            <Radar name="Current Model" dataKey="A" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
+                            <Radar
+                              name="Previous Model"
+                              dataKey="B"
+                              stroke="#8b5cf6"
+                              fill="#8b5cf6"
+                              fillOpacity={0.6}
+                            />
+                            <Legend />
+                            <Tooltip />
+                          </RadarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
 
-            <motion.div variants={item}>
-              <Card className="hover-lift transition-all">
-                <CardHeader>
-                  <CardTitle>AI Response Quality</CardTitle>
-                  <CardDescription>User feedback on AI-generated responses</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[400px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
-                        data={[
-                          { name: "Helpful", value: 68 },
-                          { name: "Somewhat Helpful", value: 22 },
-                          { name: "Not Helpful", value: 10 },
-                        ]}
-                        layout="vertical"
-                      >
-                        <CartesianGrid strokeDasharray="3 3" opacity={0.2} horizontal={false} />
-                        <XAxis type="number" />
-                        <YAxis dataKey="name" type="category" />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="value" name="Percentage (%)" fill="#3b82f6" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
+                <motion.div variants={item}>
+                  <Card className="hover-lift transition-all">
+                    <CardHeader>
+                      <CardTitle>AI Response Quality</CardTitle>
+                      <CardDescription>User feedback on AI-generated responses</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={[
+                              { name: "Helpful", value: 68 },
+                              { name: "Somewhat Helpful", value: 22 },
+                              { name: "Not Helpful", value: 10 },
+                            ]}
+                            layout="vertical"
+                          >
+                            <CartesianGrid strokeDasharray="3 3" opacity={0.2} horizontal={false} />
+                            <XAxis type="number" />
+                            <YAxis dataKey="name" type="category" />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="value" name="Percentage (%)" fill="#3b82f6" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </div>
 
-          <motion.div variants={item}>
-            <Card className="hover-lift transition-all">
-              <CardHeader>
-                <CardTitle>AI Usage Trends</CardTitle>
-                <CardDescription>Daily AI query volume and response times</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={analyticsData?.conversationData?.map((item: any) => ({
-                        date: item.date,
-                        queries: Math.floor(Math.random() * 50) + 30,
-                        responseTime: (Math.random() * 2 + 1).toFixed(1),
-                      }))}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                      <XAxis dataKey="date" />
-                      <YAxis yAxisId="left" />
-                      <YAxis yAxisId="right" orientation="right" />
-                      <Tooltip />
-                      <Legend />
-                      <Line
-                        yAxisId="left"
-                        type="monotone"
-                        dataKey="queries"
-                        name="Queries"
-                        stroke="#3b82f6"
-                        activeDot={{ r: 8 }}
-                      />
-                      <Line
-                        yAxisId="right"
-                        type="monotone"
-                        dataKey="responseTime"
-                        name="Avg. Response Time (s)"
-                        stroke="#10b981"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </TabsContent>
+              <motion.div variants={item}>
+                <Card className="hover-lift transition-all">
+                  <CardHeader>
+                    <CardTitle>AI Usage Trends</CardTitle>
+                    <CardDescription>Daily AI query volume and response times</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[400px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                          data={analyticsData?.conversationData?.map((item: any) => ({
+                            date: item.date,
+                            queries: Math.floor(Math.random() * 50) + 30,
+                            responseTime: (Math.random() * 2 + 1).toFixed(1),
+                          }))}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                          <XAxis dataKey="date" />
+                          <YAxis yAxisId="left" />
+                          <YAxis yAxisId="right" orientation="right" />
+                          <Tooltip />
+                          <Legend />
+                          <Line
+                            yAxisId="left"
+                            type="monotone"
+                            dataKey="queries"
+                            name="Queries"
+                            stroke="#3b82f6"
+                            activeDot={{ r: 8 }}
+                          />
+                          <Line
+                            yAxisId="right"
+                            type="monotone"
+                            dataKey="responseTime"
+                            name="Avg. Response Time (s)"
+                            stroke="#10b981"
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </TabsContent>
+          </>
+        )}
       </Tabs>
     </motion.div>
   )

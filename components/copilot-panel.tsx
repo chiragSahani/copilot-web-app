@@ -14,7 +14,6 @@ import {
   ArrowRight,
   Search,
   Loader2,
-  Sparkles,
   Bot,
   BookOpen,
   Lightbulb,
@@ -32,6 +31,8 @@ import { apiClient } from "@/lib/api/api-client"
 import { useToast } from "@/hooks/use-toast"
 import { useHotkeys } from "react-hotkeys-hook"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useMobile } from "@/hooks/use-mobile"
+import { AIAnimation } from "@/components/ai-animation"
 
 export function CopilotPanel() {
   const { currentConversation, knowledgeSources, addMessage } = useConversation()
@@ -47,6 +48,7 @@ export function CopilotPanel() {
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
+  const isMobile = useMobile()
 
   // Filter knowledge sources based on search query
   const filteredSources = knowledgeSources.filter(
@@ -195,9 +197,9 @@ export function CopilotPanel() {
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                        className="mb-4 h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center shadow-soft hover-lift border border-primary/30 neon-glow"
+                        className="mb-4 rounded-full overflow-hidden w-32 h-32 shadow-soft border border-primary/30"
                       >
-                        <Sparkles className="h-7 w-7 text-primary animate-pulse-subtle" />
+                        <AIAnimation type="thinking" />
                       </motion.div>
                       <h3 className="text-lg font-medium">Hi, I'm Fin AI Copilot</h3>
                       <p className="mt-1 text-sm text-muted-foreground">Ask me anything about this conversation.</p>
@@ -243,15 +245,17 @@ export function CopilotPanel() {
                       >
                         <div className="flex items-center justify-between">
                           <h4 className="text-sm font-medium">Suggested</h4>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-6 px-2 text-xs hover:bg-primary/10 transition-colors"
-                            onClick={() => setShowKeyboardShortcuts(true)}
-                          >
-                            <Keyboard className="h-3 w-3 mr-1" />
-                            Shortcuts
-                          </Button>
+                          {!isMobile && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 px-2 text-xs hover:bg-primary/10 transition-colors"
+                              onClick={() => setShowKeyboardShortcuts(true)}
+                            >
+                              <Keyboard className="h-3 w-3 mr-1" />
+                              Shortcuts
+                            </Button>
+                          )}
                         </div>
                         <div className="mt-2 space-y-2">
                           <Button
@@ -318,6 +322,9 @@ export function CopilotPanel() {
                           >
                             {isGenerating ? (
                               <div>
+                                <div className="mb-3 w-full max-w-[200px] mx-auto">
+                                  <AIAnimation type="processing" />
+                                </div>
                                 <p className="whitespace-pre-wrap text-sm">{aiResponse}</p>
                                 <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
                                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -327,7 +334,7 @@ export function CopilotPanel() {
                             ) : (
                               <div>
                                 <p className="whitespace-pre-wrap text-sm">{aiResponse}</p>
-                                <div className="mt-4 flex items-center justify-between">
+                                <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
                                   <div className="flex gap-1">
                                     <Button
                                       variant="ghost"
@@ -541,14 +548,16 @@ export function CopilotPanel() {
           </div>
         </Tabs>
 
-        <Button variant="ghost" size="icon" className="ml-2 hover:bg-primary/10 transition-colors">
-          <Expand className="h-4 w-4" />
-        </Button>
+        {!isMobile && (
+          <Button variant="ghost" size="icon" className="ml-2 hover:bg-primary/10 transition-colors">
+            <Expand className="h-4 w-4" />
+          </Button>
+        )}
       </motion.div>
 
       {/* Keyboard shortcuts dialog */}
       <Dialog open={showKeyboardShortcuts} onOpenChange={setShowKeyboardShortcuts}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className={isMobile ? "w-[95%] max-w-md" : "sm:max-w-md"}>
           <DialogHeader>
             <DialogTitle>Keyboard Shortcuts</DialogTitle>
             <DialogDescription>

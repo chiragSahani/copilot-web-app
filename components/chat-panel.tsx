@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { Plus } from "lucide-react" // Import Plus here
 
 import { useState, useRef, useEffect } from "react"
 import { useConversation } from "@/components/conversation-provider"
@@ -26,6 +27,7 @@ import {
   ImageIcon,
   Mic,
   Loader2,
+  Bot,
 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -35,6 +37,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useMobile } from "@/hooks/use-mobile"
 import { PulseEffect } from "@/components/visual-assets"
 import { useHotkeys } from "react-hotkeys-hook"
+import { useToast } from "@/hooks/use-toast"
+import { AIAnimation } from "@/components/ai-animation"
 
 export function ChatPanel() {
   const { currentConversation, addMessage, isLoading } = useConversation()
@@ -44,10 +48,12 @@ export function ChatPanel() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [showMobileActions, setShowMobileActions] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const emojiPickerRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
+  const { toast } = useToast()
 
   // Register keyboard shortcuts
   useHotkeys("ctrl+enter, cmd+enter", (e) => {
@@ -142,6 +148,10 @@ export function ChatPanel() {
     setTimeout(() => {
       setIsRecording(false)
       setInputValue((prev) => prev + " I'm sending this message using voice input.")
+      toast({
+        title: "Voice input completed",
+        description: "Your voice message has been transcribed",
+      })
     }, 3000)
   }
 
@@ -154,7 +164,15 @@ export function ChatPanel() {
         sender: "agent",
         timestamp: new Date().toISOString(),
       })
+      toast({
+        title: "File uploaded",
+        description: "Your file has been attached to the conversation",
+      })
     }, 2000)
+  }
+
+  const toggleMobileActions = () => {
+    setShowMobileActions(!showMobileActions)
   }
 
   if (!currentConversation) {
@@ -173,13 +191,9 @@ export function ChatPanel() {
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-            className="mx-auto h-12 w-12 text-primary"
-          >
-            <Loader2 className="h-12 w-12" />
-          </motion.div>
+          <div className="mx-auto w-40 h-40 mb-4">
+            <AIAnimation type="processing" />
+          </div>
           <h3 className="mt-4 text-lg font-medium">Loading conversation...</h3>
         </div>
       </div>
@@ -225,20 +239,24 @@ export function ChatPanel() {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/10 transition-colors">
-                  <Info className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>View customer details</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {!isMobile && (
+            <>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/10 transition-colors">
+                      <Info className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>View customer details</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
-          <ThemeToggle />
+              <ThemeToggle />
+            </>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -263,21 +281,25 @@ export function ChatPanel() {
                 <Calendar className="h-4 w-4" />
                 Schedule follow-up
               </DropdownMenuItem>
+              {isMobile && (
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-primary/10 transition-colors">
+                  <Bot className="h-4 w-4" />
+                  Open AI Copilot
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button
-            variant="secondary"
-            size="sm"
-            className="gap-1 shadow-soft hover-lift hover:bg-primary/10 transition-colors hidden sm:flex"
-          >
-            <X className="h-4 w-4" />
-            Close
-          </Button>
-
-          <Button variant="ghost" size="icon" className="h-8 w-8 sm:hidden hover:bg-primary/10 transition-colors">
-            <X className="h-4 w-4" />
-          </Button>
+          {!isMobile && (
+            <Button
+              variant="secondary"
+              size="sm"
+              className="gap-1 shadow-soft hover-lift hover:bg-primary/10 transition-colors hidden sm:flex"
+            >
+              <X className="h-4 w-4" />
+              Close
+            </Button>
+          )}
         </div>
       </motion.div>
 
@@ -374,6 +396,46 @@ export function ChatPanel() {
         )}
       </AnimatePresence>
 
+      {/* Mobile action buttons */}
+      <AnimatePresence>
+        {isMobile && showMobileActions && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="absolute bottom-20 right-4 z-10 flex flex-col gap-2 items-end"
+          >
+            <Button
+              variant="secondary"
+              size="icon"
+              className="h-10 w-10 rounded-full shadow-soft"
+              onClick={simulateFileUpload}
+              disabled={isUploading}
+            >
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Paperclip className="h-5 w-5" />}
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              className="h-10 w-10 rounded-full shadow-soft"
+              onClick={simulateFileUpload}
+              disabled={isUploading}
+            >
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <ImageIcon className="h-5 w-5" />}
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              className="h-10 w-10 rounded-full shadow-soft"
+              onClick={simulateRecording}
+              disabled={isRecording}
+            >
+              {isRecording ? <PulseEffect size="sm" /> : <Mic className="h-5 w-5" />}
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Input area */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -395,7 +457,26 @@ export function ChatPanel() {
             rows={1}
           />
           <div className="flex gap-1">
-            {!isMobile && (
+            {isMobile ? (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-10 w-10 hover-lift hover:bg-primary/10 transition-colors"
+                  onClick={toggleMobileActions}
+                >
+                  <Plus className="h-5 w-5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-10 w-10 hover-lift hover:bg-primary/10 transition-colors"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  <Smile className="h-5 w-5" />
+                </Button>
+              </>
+            ) : (
               <>
                 <TooltipProvider>
                   <Tooltip>
@@ -453,26 +534,26 @@ export function ChatPanel() {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-10 w-10 hover-lift hover:bg-primary/10 transition-colors"
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                      >
+                        <Smile className="h-5 w-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Add emoji</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </>
             )}
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-10 w-10 hover-lift hover:bg-primary/10 transition-colors"
-                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                  >
-                    <Smile className="h-5 w-5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Add emoji</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
 
             <TooltipProvider>
               <Tooltip>
@@ -494,9 +575,11 @@ export function ChatPanel() {
           </div>
         </div>
 
-        <div className="mt-2 flex items-center justify-between">
-          <div className="text-xs text-muted-foreground">Press Enter to send, Shift+Enter for new line</div>
-        </div>
+        {!isMobile && (
+          <div className="mt-2 flex items-center justify-between">
+            <div className="text-xs text-muted-foreground">Press Enter to send, Shift+Enter for new line</div>
+          </div>
+        )}
 
         {/* Emoji Picker */}
         <AnimatePresence>
@@ -507,9 +590,14 @@ export function ChatPanel() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.2 }}
-              className="absolute bottom-20 right-4 z-50"
+              className={`absolute ${isMobile ? "bottom-16 right-0 left-0 mx-auto w-[90%]" : "bottom-20 right-4"} z-50`}
             >
-              <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                theme="dark"
+                width={isMobile ? "100%" : undefined}
+                height={isMobile ? 300 : undefined}
+              />
             </motion.div>
           )}
         </AnimatePresence>

@@ -28,8 +28,13 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { useHotkeys } from "react-hotkeys-hook"
+import { useMobile } from "@/hooks/use-mobile"
 
-export function ConversationList() {
+interface ConversationListProps {
+  onConversationSelect?: () => void
+}
+
+export function ConversationList({ onConversationSelect }: ConversationListProps) {
   const {
     conversations,
     currentConversation,
@@ -49,6 +54,7 @@ export function ConversationList() {
   const [isCreating, setIsCreating] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
+  const isMobile = useMobile()
 
   // Register keyboard shortcuts
   useHotkeys("ctrl+k, cmd+k", (e) => {
@@ -84,6 +90,14 @@ export function ConversationList() {
     router.push("/login")
   }
 
+  // Handle conversation selection
+  const handleConversationSelect = (conversation: any) => {
+    setCurrentConversation(conversation)
+    if (onConversationSelect) {
+      onConversationSelect()
+    }
+  }
+
   // Handle create conversation
   const handleCreateConversation = async () => {
     if (!newCustomerName || !newCustomerEmail || !newMessage) {
@@ -113,6 +127,15 @@ export function ConversationList() {
         setNewCustomerEmail("")
         setNewMessage("")
         setNewCategory("support")
+
+        // Notify mobile users to switch to chat view
+        if (isMobile && onConversationSelect) {
+          onConversationSelect()
+          toast({
+            title: "Conversation created",
+            description: "Switching to chat view",
+          })
+        }
       }
     } catch (err) {
       console.error("Error creating conversation:", err)
@@ -136,22 +159,24 @@ export function ConversationList() {
         <div className="flex items-center gap-2">
           <NotificationCenter />
 
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 hover-lift hover:bg-primary/10 transition-colors"
-                >
-                  <Settings className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Settings</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {!isMobile && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 hover-lift hover:bg-primary/10 transition-colors"
+                  >
+                    <Settings className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Settings</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
 
           <ThemeToggle />
 
@@ -162,7 +187,7 @@ export function ConversationList() {
                 New
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className={isMobile ? "w-[95%] max-w-md" : ""}>
               <DialogHeader>
                 <DialogTitle>New Conversation</DialogTitle>
                 <DialogDescription>Create a new customer conversation</DialogDescription>
@@ -298,7 +323,7 @@ export function ConversationList() {
               className={`flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-muted/50 transition-colors duration-200 ${
                 currentConversation?.id === conversation.id ? "bg-muted/50" : ""
               } hover-lift`}
-              onClick={() => setCurrentConversation(conversation)}
+              onClick={() => handleConversationSelect(conversation)}
             >
               <Avatar className="h-9 w-9 transition-transform duration-200 hover:scale-105 shadow-soft">
                 <div className="flex h-full w-full items-center justify-center bg-primary text-primary-foreground">

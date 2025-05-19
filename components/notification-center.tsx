@@ -10,12 +10,14 @@ import { formatDistanceToNow } from "date-fns"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useMobile } from "@/hooks/use-mobile"
+import { useToast } from "@/hooks/use-toast"
 
 export function NotificationCenter() {
   const [isOpen, setIsOpen] = useState(false)
   const { notifications, unreadNotifications, markNotificationAsRead } = useApi()
   const notificationRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
+  const { toast } = useToast()
 
   // Close when clicking outside
   useEffect(() => {
@@ -33,6 +35,10 @@ export function NotificationCenter() {
 
   const handleMarkAsRead = async (id: string) => {
     await markNotificationAsRead(id)
+    toast({
+      title: "Notification marked as read",
+      description: "The notification has been marked as read",
+    })
   }
 
   const getNotificationIcon = (type: string) => {
