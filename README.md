@@ -1,6 +1,6 @@
 # AI Copilot Web App
 
-![AI Copilot](https://github.com/yourusername/ai-copilot-web-app/assets/yourusername/ai-copilot-banner.png)
+![AI Copilot](https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif)
 
 A modern, responsive AI-powered customer support assistant with a sleek interface and intelligent conversation capabilities.
 
@@ -32,8 +32,8 @@ A modern, responsive AI-powered customer support assistant with a sleek interfac
 
 1. Clone this repository:
 \`\`\`bash
-git clone https://github.com/yourusername/ai-copilot-web-app.git
-cd ai-copilot-web-app
+git clone https://github.com/chiragSahani/copilot-web-app.git
+cd copilot-web-app
 \`\`\`
 
 2. Install dependencies:
@@ -88,34 +88,3 @@ You can customize the app's appearance and behavior:
 - [OpenAI](https://openai.com/)
 \`\`\`
 
-Now, let's update the layout.tsx to set dark mode as the default theme:
-
-```typescriptreact file="app/layout.tsx"
-[v0-no-op-code-block-prefix]import type React from "react"
-import type { Metadata } from "next"
-import { Inter } from 'next/font/google'
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-
-const inter = Inter({ subsets: ["latin"] })
-
-export const metadata: Metadata = {
-  title: "AI Copilot",
-  description: "AI-powered customer support assistant",
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  )
-}
