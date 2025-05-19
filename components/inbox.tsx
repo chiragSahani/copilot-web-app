@@ -13,6 +13,7 @@ import { AnimatedBackground, ParticleEffect } from "@/components/visual-assets"
 import { useHotkeys } from "react-hotkeys-hook"
 import { useConversation } from "@/components/conversation-provider"
 import { useToast } from "@/hooks/use-toast"
+import { useNotification } from "@/components/notification-provider"
 
 export function Inbox() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -23,6 +24,7 @@ export function Inbox() {
   const isTablet = useTablet()
   const { currentConversation } = useConversation()
   const { toast } = useToast()
+  const { addNotification } = useNotification()
   const mainContainerRef = useRef<HTMLDivElement>(null)
 
   // Register keyboard shortcuts
@@ -61,6 +63,13 @@ export function Inbox() {
     return isTablet
   }
 
+  // Set default view to copilot on mobile
+  useEffect(() => {
+    if (isMobile) {
+      setActiveView("copilot")
+    }
+  }, [isMobile])
+
   // Close sidebar when clicking outside on mobile
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -80,10 +89,10 @@ export function Inbox() {
 
   // Set active view based on current conversation
   useEffect(() => {
-    if (isMobile && currentConversation) {
+    if (isMobile && currentConversation && activeView !== "copilot") {
       setActiveView("chat")
     }
-  }, [currentConversation, isMobile])
+  }, [currentConversation, isMobile, activeView])
 
   // Handle back button on mobile
   const handleBackToConversations = () => {
@@ -95,12 +104,24 @@ export function Inbox() {
     switch (action) {
       case "analytics":
         setAnalyticsOpen(true)
+        addNotification({
+          type: "info",
+          title: "Analytics Dashboard",
+          message: "Viewing analytics dashboard",
+          duration: 3000,
+        })
         break
       case "copilot":
         if (isMobile) {
           setActiveView("copilot")
         } else {
           setCopilotOpen(!copilotOpen)
+          addNotification({
+            type: "info",
+            title: "AI Copilot",
+            message: copilotOpen ? "AI Copilot panel closed" : "AI Copilot panel opened",
+            duration: 3000,
+          })
         }
         break
       default:
@@ -157,8 +178,8 @@ export function Inbox() {
               variant="ghost"
               size="icon"
               className="mr-2"
-              onClick={() => setActiveView("chat")}
-              aria-label="Back to chat"
+              onClick={() => (currentConversation ? setActiveView("chat") : setActiveView("conversations"))}
+              aria-label="Back"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -175,7 +196,7 @@ export function Inbox() {
   return (
     <div
       ref={mainContainerRef}
-      className="flex h-screen w-full overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-background to-background dark:from-slate-900 dark:via-background dark:to-background transition-all duration-500 relative"
+      className="flex h-screen w-full overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-background to-background transition-all duration-500 relative"
     >
       {/* Animated background */}
       <AnimatedBackground />

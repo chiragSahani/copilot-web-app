@@ -1,138 +1,121 @@
+# AI Copilot Web App
 
-# 🤖✨ AI Copilot Web App
+![AI Copilot](https://github.com/yourusername/ai-copilot-web-app/assets/yourusername/ai-copilot-banner.png)
 
-<p align="center">
-  <a href="https://chirag-copilot.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/Live Demo-00C7B7?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
-  </a>
-</p>
-
-<p align="center" >
-  <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif" alt="Demo">
-</p>
-
-<p align="center">
-  <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659369/original-5eb2f9967073700b38a31280cc2c32e0_m0tb2u.gif" width="350" style="margin: 8px;" />
-  <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659361/1_C7Z3JYA_yScejWcK99ZfGQ_nzz0ad.gif" width="350" style="margin: 8px;" />
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-14%2B-black?logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-2C3E50?style=flat&logo=tailwind-css&logoColor=38B2AC" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/OpenAI-API-blue?logo=openai" alt="OpenAI" />
-  <img src="https://img.shields.io/badge/MIT-License-brightgreen" alt="MIT License" />
-</p>
-
----
-
-> A modern, responsive, and intelligent customer support assistant powered by AI, with a sleek interface and smart conversation capabilities.
-
----
+A modern, responsive AI-powered customer support assistant with a sleek interface and intelligent conversation capabilities.
 
 ## ✨ Features
 
-- 🖥️ **Split-Screen Interface:** Intuitive layout with conversation list, chat panel, and AI copilot  
-- 🤖 **AI-Powered Responses:** Instant, contextual replies using OpenAI’s advanced models  
-- 📚 **Knowledge Base Integration:** Instantly reference articles to assist users  
-- 🌗 **Dark/Light Mode:** Toggle themes for comfortable day or night use  
-- ⚡ **Real-Time Chat:** Typing indicators and live, dynamic responses  
-- 📱 **Responsive Design:** Seamless UX on desktop, tablet, and mobile  
-
----
+- **Split-Screen Interface**: Intuitive layout with conversation list, chat panel, and AI copilot
+- **AI-Powered Responses**: Generate contextual responses using OpenAI's advanced models
+- **Knowledge Base Integration**: Access relevant information from the knowledge base to assist customers
+- **Responsive Design**: Fully responsive UI that works seamlessly on desktop and mobile devices
+- **Dark/Light Mode**: Toggle between themes based on preference
+- **Real-time Conversation**: Simulate typing indicators and live responses
 
 ## 🛠️ Tech Stack
 
-|  |  |
-|---|---|
-| **Framework** | ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) Next.js 14+ (App Router) |
-| **UI** | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css) Tailwind CSS, shadcn/ui |
-| **AI** | ![OpenAI](https://img.shields.io/badge/OpenAI%20SDK-blue?logo=openai) Vercel AI SDK, OpenAI |
-| **State** | ⚛️ React Context API |
-| **Styling** | 🎨 Custom animations, responsive design |
-
----
+- **Framework**: Next.js 14+ with App Router
+- **UI**: Tailwind CSS, shadcn/ui components
+- **AI Integration**: Vercel AI SDK with OpenAI
+- **State Management**: React Context API
+- **Styling**: Custom animations and responsive design
 
 ## 🚀 Getting Started
 
-<details>
-  <summary><strong>Setup Instructions</strong> 👇</summary>
+### Prerequisites
 
-### ✅ Prerequisites
+- Node.js 18+
+- OpenAI API key
 
-- <img src="https://img.shields.io/badge/Node.js-18%2B-green?logo=node.js" alt="Node.js" /> Node.js 18+
-- <img src="https://img.shields.io/badge/OpenAI-API-blue?logo=openai" alt="OpenAI API" /> OpenAI API key
+### Installation
 
-### 🏗️ Installation
+1. Clone this repository:
+\`\`\`bash
+git clone https://github.com/yourusername/ai-copilot-web-app.git
+cd ai-copilot-web-app
+\`\`\`
 
-```bash
-git clone https://github.com/chiragSahani/copilot-web-app.git
-cd copilot-web-app
+2. Install dependencies:
+\`\`\`bash
 npm install
-```
+\`\`\`
 
-### 🔐 Configure Environment
-
-Create a `.env.local` file and add your OpenAI API key:
-```env
+3. Set up environment variables:
+Create a `.env.local` file in the root directory and add your OpenAI API key:
+\`\`\`
 OPENAI_API_KEY=your_api_key_here
-```
+\`\`\`
 
-### 🏃 Run the Development Server
-
-```bash
+4. Run the development server:
+\`\`\`bash
 npm run dev
-```
-Then open [http://localhost:3000](http://localhost:3000) 🚀
+\`\`\`
 
-</details>
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
 
----
+## 📱 Responsive Design
 
-## 📱 Responsive Layouts
-
-- **Desktop:** Full split-screen with all panels  
-- **Tablet:** Collapsible, adaptive layout  
-- **Mobile:** Handy stack view with toggles  
-
----
+The app is designed to work seamlessly across all device sizes:
+- **Desktop**: Full split-screen interface with all panels visible
+- **Tablet**: Adaptable layout with collapsible panels
+- **Mobile**: Stack view with toggleable sidebar and AI copilot panel
 
 ## 🧠 AI Capabilities
 
-- 🤔 **Context-Aware:** Understands the flow and context of conversations  
-- 🧩 **Knowledge-Driven:** Pulls from knowledge base for precise answers  
-- 💡 **Smart Suggestions:** Recommends actions and responses  
-- ⭐ **Feedback Loop:** Agents can rate and improve AI answers  
-
----
+- **Context-Aware Responses**: The AI understands the conversation context and provides relevant answers
+- **Knowledge Base Integration**: Automatically references knowledge articles for accurate information
+- **Smart Suggestions**: Offers intelligent suggestions based on conversation content
+- **Feedback System**: Allows agents to rate and improve AI responses
 
 ## 🎨 Customization
 
-- 🎨 Edit theme colors in `tailwind.config.ts`
-- 🤖 Modify AI logic in `lib/ai-utils.ts`
-- 🧪 Update mock data in `lib/sample-data.ts` & `lib/mock-data.ts`
-
----
+You can customize the app's appearance and behavior:
+- Edit the theme colors in `tailwind.config.ts`
+- Modify the AI behavior in `lib/ai-utils.ts`
+- Add or change mock data in `lib/sample-data.ts` and `lib/mock-data.ts`
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
+[MIT](LICENSE)
 
 ## 🙏 Acknowledgements
 
-- [Next.js](https://nextjs.org/)  
-- [Tailwind CSS](https://tailwindcss.com/)  
-- [shadcn/ui](https://ui.shadcn.com/)  
-- [Vercel AI SDK](https://sdk.vercel.ai/)  
-- [OpenAI](https://openai.com/)  
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Vercel AI SDK](https://sdk.vercel.ai/)
+- [OpenAI](https://openai.com/)
+\`\`\`
 
----
+Now, let's update the layout.tsx to set dark mode as the default theme:
 
-<p align="center">
-  
-  <b>Made with ❤️ by Chirag Sahani</b>
-</p>
+```typescriptreact file="app/layout.tsx"
+[v0-no-op-code-block-prefix]import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from 'next/font/google'
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
 
+const inter = Inter({ subsets: ["latin"] })
 
+export const metadata: Metadata = {
+  title: "AI Copilot",
+  description: "AI-powered customer support assistant",
+}
 
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
