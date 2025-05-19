@@ -25,14 +25,6 @@ import {
   ThumbsDown,
   Zap,
   Keyboard,
-  ShoppingCart,
-  CreditCard,
-  HelpCircle,
-  Clock,
-  Calendar,
-  Settings,
-  Mail,
-  Phone,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { apiClient } from "@/lib/api/api-client"
@@ -41,7 +33,6 @@ import { useHotkeys } from "react-hotkeys-hook"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useMobile } from "@/hooks/use-mobile"
 import { AIAnimation } from "@/components/ai-animation"
-import { useNotification } from "@/components/notification-provider"
 
 export function CopilotPanel() {
   const { currentConversation, knowledgeSources, addMessage } = useConversation()
@@ -58,20 +49,6 @@ export function CopilotPanel() {
   const inputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
   const isMobile = useMobile()
-  const { addNotification } = useNotification()
-
-  // Suggested queries - expanded list
-  const suggestedQueries = [
-    { icon: <MessageSquare className="h-3.5 w-3.5 text-muted-foreground" />, text: "How do I get a refund?" },
-    { icon: <ShoppingCart className="h-3.5 w-3.5 text-muted-foreground" />, text: "What's our return policy?" },
-    { icon: <Clock className="h-3.5 w-3.5 text-muted-foreground" />, text: "How to track an order?" },
-    { icon: <CreditCard className="h-3.5 w-3.5 text-muted-foreground" />, text: "Payment methods we accept" },
-    { icon: <Calendar className="h-3.5 w-3.5 text-muted-foreground" />, text: "Shipping timeframes" },
-    { icon: <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />, text: "How to contact customer support?" },
-    { icon: <Settings className="h-3.5 w-3.5 text-muted-foreground" />, text: "How to reset my password?" },
-    { icon: <Mail className="h-3.5 w-3.5 text-muted-foreground" />, text: "Email subscription preferences" },
-    { icon: <Phone className="h-3.5 w-3.5 text-muted-foreground" />, text: "International shipping options" },
-  ]
 
   // Filter knowledge sources based on search query
   const filteredSources = knowledgeSources.filter(
@@ -131,26 +108,12 @@ export function CopilotPanel() {
       await apiClient.streamAIResponse(userQuery, conversationHistory, (chunk) => {
         setAiResponse((prev) => prev + chunk)
       })
-
-      // Show notification
-      addNotification({
-        type: "success",
-        title: "AI Response Generated",
-        message: "The AI has generated a response to your query.",
-        duration: 3000,
-      })
     } catch (error) {
       console.error("Error generating AI response:", error)
       toast({
         title: "Error",
         description: "Failed to generate AI response. Please try again.",
         variant: "destructive",
-      })
-      addNotification({
-        type: "error",
-        title: "AI Response Error",
-        message: "Failed to generate AI response. Please try again.",
-        duration: 5000,
       })
       setAiResponse("I apologize, but I'm having trouble generating a response right now. Please try again later.")
     } finally {
@@ -171,12 +134,6 @@ export function CopilotPanel() {
         title: "Success",
         description: "Response added to composer",
       })
-      addNotification({
-        type: "info",
-        title: "Response Added",
-        message: "AI response has been added to the message composer.",
-        duration: 3000,
-      })
     }
   }
 
@@ -187,12 +144,6 @@ export function CopilotPanel() {
       toast({
         title: "Copied",
         description: "Response copied to clipboard",
-      })
-      addNotification({
-        type: "info",
-        title: "Copied to Clipboard",
-        message: "AI response has been copied to your clipboard.",
-        duration: 3000,
       })
       setTimeout(() => setCopied(false), 2000)
     }
@@ -306,23 +257,46 @@ export function CopilotPanel() {
                             </Button>
                           )}
                         </div>
-                        <div className="mt-2 space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                          {suggestedQueries.map((query, index) => (
-                            <Button
-                              key={index}
-                              variant="outline"
-                              className="w-full justify-start text-sm transition-all duration-200 hover:bg-primary/10 hover-lift border border-primary/10 hover:border-primary/30"
-                              onClick={() => {
-                                setUserQuery(query.text)
-                                handleGenerateResponse()
-                              }}
-                            >
-                              <span className="flex items-center gap-2">
-                                {query.icon}
-                                {query.text}
-                              </span>
-                            </Button>
-                          ))}
+                        <div className="mt-2 space-y-2">
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start text-sm transition-all duration-200 hover:bg-primary/10 hover-lift border border-primary/10 hover:border-primary/30"
+                            onClick={() => {
+                              setUserQuery("How do I get a refund?")
+                              handleGenerateResponse()
+                            }}
+                          >
+                            <span className="flex items-center gap-2">
+                              <MessageSquare className="h-3.5 w-3.5 text-muted-foreground" />
+                              How do I get a refund?
+                            </span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start text-sm transition-all duration-200 hover:bg-primary/10 hover-lift border border-primary/10 hover:border-primary/30"
+                            onClick={() => {
+                              setUserQuery("What's our return policy?")
+                              handleGenerateResponse()
+                            }}
+                          >
+                            <span className="flex items-center gap-2">
+                              <MessageSquare className="h-3.5 w-3.5 text-muted-foreground" />
+                              What's our return policy?
+                            </span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start text-sm transition-all duration-200 hover:bg-primary/10 hover-lift border border-primary/10 hover:border-primary/30"
+                            onClick={() => {
+                              setUserQuery("How to track an order?")
+                              handleGenerateResponse()
+                            }}
+                          >
+                            <span className="flex items-center gap-2">
+                              <MessageSquare className="h-3.5 w-3.5 text-muted-foreground" />
+                              How to track an order?
+                            </span>
+                          </Button>
                         </div>
                       </motion.div>
                     </motion.div>
@@ -366,15 +340,7 @@ export function CopilotPanel() {
                                       variant="ghost"
                                       size="sm"
                                       className={`h-8 px-2 hover:bg-primary/10 transition-colors ${feedbackGiven === "up" ? "bg-primary/10 text-primary" : ""}`}
-                                      onClick={() => {
-                                        setFeedbackGiven("up")
-                                        addNotification({
-                                          type: "success",
-                                          title: "Feedback Received",
-                                          message: "Thank you for your positive feedback!",
-                                          duration: 3000,
-                                        })
-                                      }}
+                                      onClick={() => setFeedbackGiven("up")}
                                     >
                                       <ThumbsUp className="h-4 w-4 mr-1" />
                                       Helpful
@@ -383,15 +349,7 @@ export function CopilotPanel() {
                                       variant="ghost"
                                       size="sm"
                                       className={`h-8 px-2 hover:bg-primary/10 transition-colors ${feedbackGiven === "down" ? "bg-primary/10 text-primary" : ""}`}
-                                      onClick={() => {
-                                        setFeedbackGiven("down")
-                                        addNotification({
-                                          type: "info",
-                                          title: "Feedback Received",
-                                          message: "Thank you for your feedback. We'll improve our responses.",
-                                          duration: 3000,
-                                        })
-                                      }}
+                                      onClick={() => setFeedbackGiven("down")}
                                     >
                                       <ThumbsDown className="h-4 w-4 mr-1" />
                                       Not helpful
@@ -460,18 +418,7 @@ export function CopilotPanel() {
                             </motion.div>
                           ))}
                           {relevantSources.length > 3 && (
-                            <Button
-                              variant="link"
-                              className="h-auto p-0 text-xs hover:text-primary transition-colors"
-                              onClick={() => {
-                                addNotification({
-                                  type: "info",
-                                  title: "Knowledge Base",
-                                  message: "Viewing all relevant knowledge sources.",
-                                  duration: 3000,
-                                })
-                              }}
-                            >
+                            <Button variant="link" className="h-auto p-0 text-xs hover:text-primary transition-colors">
                               <span className="flex items-center gap-1">
                                 See all <ArrowRight className="h-3 w-3" />
                               </span>
@@ -576,14 +523,6 @@ export function CopilotPanel() {
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: 0.4 + index * 0.05 }}
                         className="flex items-start gap-2 rounded-lg border p-2 transition-all duration-200 hover:bg-muted/50 cursor-pointer shadow-soft hover-lift"
-                        onClick={() => {
-                          addNotification({
-                            type: "info",
-                            title: "Knowledge Article",
-                            message: `Viewing: ${source.title}`,
-                            duration: 3000,
-                          })
-                        }}
                       >
                         <FileText className="mt-0.5 h-4 w-4 text-muted-foreground" />
                         <div>
@@ -610,19 +549,7 @@ export function CopilotPanel() {
         </Tabs>
 
         {!isMobile && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-2 hover:bg-primary/10 transition-colors"
-            onClick={() => {
-              addNotification({
-                type: "info",
-                title: "Expand View",
-                message: "Expanded AI Copilot view",
-                duration: 3000,
-              })
-            }}
-          >
+          <Button variant="ghost" size="icon" className="ml-2 hover:bg-primary/10 transition-colors">
             <Expand className="h-4 w-4" />
           </Button>
         )}

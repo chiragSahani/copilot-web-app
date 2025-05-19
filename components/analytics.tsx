@@ -34,7 +34,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, AlertCircle } from "lucide-react"
 import { useMobile } from "@/hooks/use-mobile"
-import { useNotification } from "@/components/notification-provider"
 
 // Animation variants
 const container = {
@@ -69,7 +68,6 @@ export function Analytics() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const isMobile = useMobile()
-  const { addNotification } = useNotification()
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -79,37 +77,19 @@ export function Analytics() {
 
         if (response.success && response.data) {
           setAnalyticsData(response.data)
-          addNotification({
-            type: "success",
-            title: "Analytics Loaded",
-            message: "Your analytics data has been successfully loaded.",
-            duration: 3000,
-          })
         } else {
           setError("Failed to load analytics data")
-          addNotification({
-            type: "error",
-            title: "Analytics Error",
-            message: "Failed to load analytics data. Please try again.",
-            duration: 5000,
-          })
         }
       } catch (err) {
         console.error("Error fetching analytics data:", err)
         setError("An unexpected error occurred")
-        addNotification({
-          type: "error",
-          title: "Analytics Error",
-          message: "An unexpected error occurred while loading analytics.",
-          duration: 5000,
-        })
       } finally {
         setIsLoading(false)
       }
     }
 
     fetchAnalyticsData()
-  }, [addNotification])
+  }, [])
 
   if (isLoading) {
     return (
@@ -164,23 +144,19 @@ export function Analytics() {
   return (
     <motion.div className="space-y-6" variants={container} initial="hidden" animate="show">
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-4">
+        <TabsList className={`grid ${isMobile ? "grid-cols-2" : "grid-cols-4"} mb-4`}>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="conversations">Conversations</TabsTrigger>
-          <TabsTrigger value="performance" className="hidden md:block">
-            Performance
-          </TabsTrigger>
-          <TabsTrigger value="ai-insights" className="hidden md:block">
-            AI Insights
-          </TabsTrigger>
+          {!isMobile && <TabsTrigger value="performance">Performance</TabsTrigger>}
+          {!isMobile && <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <motion.div variants={item} className="col-span-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <motion.div variants={item}>
               <Card className="hover-lift transition-all">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xl md:text-2xl flex items-center justify-between">
+                  <CardTitle className="text-2xl flex items-center justify-between">
                     152
                     <Badge variant="outline" className="ml-2 bg-green-500/10 text-green-500 hover:bg-green-500/20">
                       <TrendingUp className="h-3 w-3 mr-1" />
@@ -197,10 +173,10 @@ export function Analytics() {
               </Card>
             </motion.div>
 
-            <motion.div variants={item} className="col-span-1">
+            <motion.div variants={item}>
               <Card className="hover-lift transition-all">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xl md:text-2xl flex items-center justify-between">
+                  <CardTitle className="text-2xl flex items-center justify-between">
                     89%
                     <Badge variant="outline" className="ml-2 bg-green-500/10 text-green-500 hover:bg-green-500/20">
                       <TrendingUp className="h-3 w-3 mr-1" />
@@ -217,10 +193,10 @@ export function Analytics() {
               </Card>
             </motion.div>
 
-            <motion.div variants={item} className="col-span-1">
+            <motion.div variants={item}>
               <Card className="hover-lift transition-all">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xl md:text-2xl flex items-center justify-between">
+                  <CardTitle className="text-2xl flex items-center justify-between">
                     4.2m
                     <Badge variant="outline" className="ml-2 bg-green-500/10 text-green-500 hover:bg-green-500/20">
                       <TrendingDown className="h-3 w-3 mr-1" />
@@ -237,10 +213,10 @@ export function Analytics() {
               </Card>
             </motion.div>
 
-            <motion.div variants={item} className="col-span-1">
+            <motion.div variants={item}>
               <Card className="hover-lift transition-all">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xl md:text-2xl flex items-center justify-between">
+                  <CardTitle className="text-2xl flex items-center justify-between">
                     4.8/5
                     <Badge variant="outline" className="ml-2 bg-green-500/10 text-green-500 hover:bg-green-500/20">
                       <TrendingUp className="h-3 w-3 mr-1" />
@@ -259,7 +235,7 @@ export function Analytics() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <motion.div variants={item} className="col-span-1">
+            <motion.div variants={item}>
               <Card className="hover-lift transition-all">
                 <CardHeader>
                   <CardTitle>Conversations Overview</CardTitle>
@@ -277,7 +253,7 @@ export function Analytics() {
                         color: "hsl(var(--primary) / 0.5)",
                       },
                     }}
-                    className="h-[250px] md:h-[300px]"
+                    className="h-[300px]"
                   >
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={analyticsData?.conversationData || []}>
@@ -291,8 +267,8 @@ export function Analytics() {
                             <stop offset="95%" stopColor="hsl(var(--primary) / 0.5)" stopOpacity={0} />
                           </linearGradient>
                         </defs>
-                        <XAxis dataKey="date" tick={!isMobile} tickLine={!isMobile} />
-                        <YAxis tick={!isMobile} tickLine={!isMobile} />
+                        <XAxis dataKey="date" />
+                        <YAxis />
                         <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Area
@@ -316,14 +292,14 @@ export function Analytics() {
               </Card>
             </motion.div>
 
-            <motion.div variants={item} className="col-span-1">
+            <motion.div variants={item}>
               <Card className="hover-lift transition-all">
                 <CardHeader>
                   <CardTitle>Conversation Categories</CardTitle>
                   <CardDescription>Distribution by category</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[250px] md:h-[300px] flex items-center justify-center">
+                  <div className="h-[300px] flex items-center justify-center">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
@@ -334,11 +310,11 @@ export function Analytics() {
                           ]}
                           cx="50%"
                           cy="50%"
-                          labelLine={!isMobile}
-                          outerRadius={isMobile ? 80 : 100}
+                          labelLine={false}
+                          outerRadius={100}
                           fill="#8884d8"
                           dataKey="value"
-                          label={isMobile ? undefined : ({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                         >
                           {[
                             { name: "Support", value: analyticsData?.categoryDistribution?.support || 45 },
@@ -349,7 +325,6 @@ export function Analytics() {
                           ))}
                         </Pie>
                         <Tooltip formatter={(value) => [`${value}%`, "Percentage"]} />
-                        <Legend />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -365,22 +340,18 @@ export function Analytics() {
                 <CardDescription>Performance and usage statistics for AI assistant</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <div className="text-sm text-muted-foreground mb-1">Total AI Queries</div>
-                    <div className="text-xl md:text-2xl font-bold">
-                      {analyticsData?.aiUsageData?.totalQueries || 1250}
-                    </div>
+                    <div className="text-2xl font-bold">{analyticsData?.aiUsageData?.totalQueries || 1250}</div>
                   </div>
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <div className="text-sm text-muted-foreground mb-1">Avg. Response Time</div>
-                    <div className="text-xl md:text-2xl font-bold">
-                      {analyticsData?.aiUsageData?.averageQueryTime || 1.8}s
-                    </div>
+                    <div className="text-2xl font-bold">{analyticsData?.aiUsageData?.averageQueryTime || 1.8}s</div>
                   </div>
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <div className="text-sm text-muted-foreground mb-1">AI Accuracy</div>
-                    <div className="text-xl md:text-2xl font-bold">{analyticsData?.aiUsageData?.aiAccuracy || 92}%</div>
+                    <div className="text-2xl font-bold">{analyticsData?.aiUsageData?.aiAccuracy || 92}%</div>
                   </div>
                 </div>
 
@@ -389,7 +360,7 @@ export function Analytics() {
                   <div className="space-y-2">
                     {(analyticsData?.aiUsageData?.topQueries || []).map((query: any, index: number) => (
                       <div key={index} className="flex items-center justify-between p-2 bg-muted/20 rounded-lg">
-                        <span className="text-sm truncate mr-2">{query.query}</span>
+                        <span className="text-sm">{query.query}</span>
                         <Badge variant="secondary">{query.count} queries</Badge>
                       </div>
                     ))}
@@ -408,12 +379,12 @@ export function Analytics() {
                 <CardDescription>Weekly conversation trends</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] md:h-[400px]">
+                <div className="h-[400px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={analyticsData?.conversationData || []}>
                       <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                      <XAxis dataKey="date" tick={!isMobile} tickLine={!isMobile} />
-                      <YAxis tick={!isMobile} tickLine={!isMobile} />
+                      <XAxis dataKey="date" />
+                      <YAxis />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="total" name="Total Conversations" fill="hsl(var(--primary))" />
@@ -433,7 +404,7 @@ export function Analytics() {
                   <CardDescription>Percentage of resolved conversations</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[250px] md:h-[300px]">
+                  <div className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart
                         data={analyticsData?.conversationData?.map((item: any) => ({
@@ -442,8 +413,8 @@ export function Analytics() {
                         }))}
                       >
                         <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                        <XAxis dataKey="date" tick={!isMobile} tickLine={!isMobile} />
-                        <YAxis tick={!isMobile} tickLine={!isMobile} />
+                        <XAxis dataKey="date" />
+                        <YAxis />
                         <Tooltip />
                         <Legend />
                         <Line
@@ -467,7 +438,7 @@ export function Analytics() {
                   <CardDescription>Average time to resolution</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[250px] md:h-[300px]">
+                  <div className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={analyticsData?.responseTimeData || []}>
                         <defs>
@@ -477,8 +448,8 @@ export function Analytics() {
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                        <XAxis dataKey="date" tick={!isMobile} tickLine={!isMobile} />
-                        <YAxis tick={!isMobile} tickLine={!isMobile} />
+                        <XAxis dataKey="date" />
+                        <YAxis />
                         <Tooltip />
                         <Area
                           type="monotone"
@@ -497,7 +468,6 @@ export function Analytics() {
           </div>
         </TabsContent>
 
-        {/* Only render these tabs on non-mobile devices */}
         {!isMobile && (
           <>
             <TabsContent value="performance" className="space-y-4">

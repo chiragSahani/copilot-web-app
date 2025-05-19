@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ApiProvider } from "@/components/api-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { LoadingScreen } from "@/components/loading-screen"
-import { NotificationProvider } from "@/components/notification-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,13 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <ApiProvider>
-            <NotificationProvider>
-              <LoadingScreen />
-              {children}
-              <Toaster />
-            </NotificationProvider>
+            <LoadingScreen />
+            {children}
+            <Toaster />
           </ApiProvider>
         </ThemeProvider>
       </body>
