@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 252 59% 48%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 252 59% 48%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 32% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 224 76% 48%;
     --radius: 0.5rem;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 252 59% 54%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 252 59% 54%;
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
   }
 }
 
@@ -119,6 +119,28 @@
   animation: pulse 2s infinite ease-in-out;
 }
 
+/* Futuristic neon glow effects */
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(var(--primary), 0.5), 0 0 10px rgba(var(--primary), 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(var(--primary), 0.8), 0 0 20px rgba(var(--primary), 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(var(--primary), 0.5), 0 0 10px rgba(var(--primary), 0.3);
+  }
+}
+
+.neon-glow {
+  animation: neonPulse 2s infinite;
+}
+
+.neon-border {
+  border: 1px solid hsl(var(--primary));
+  box-shadow: 0 0 5px rgba(var(--primary), 0.5);
+}
+
 /* Smooth transitions */
 .transition-all-smooth {
   transition: all 0.3s ease-in-out;
@@ -127,19 +149,24 @@
 /* Message bubble styles */
 @layer components {
   .message-bubble {
-    @apply rounded-2xl p-4 max-w-[85%];
-    @apply animate-fade-in;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    @apply rounded-2xl;
+    @apply p-4;
+    @apply max-w-[85%];
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
   }
 
   .message-bubble-customer {
-    @apply bg-secondary text-secondary-foreground;
+    @apply bg-secondary;
+    @apply text-secondary-foreground;
     border-bottom-left-radius: 0.5rem;
   }
 
   .message-bubble-agent {
-    @apply bg-primary/10 text-foreground;
+    @apply bg-primary/15;
+    @apply text-foreground;
     border-bottom-right-radius: 0.5rem;
+    border-left: 2px solid hsl(var(--primary));
   }
 }
 
@@ -254,4 +281,36 @@
 /* Improved focus styles */
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-background;
+}
+
+/* Futuristic card styling */
+.card-futuristic {
+  @apply bg-background/60 backdrop-blur-sm border border-border/40 rounded-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 640px) {
+  .message-bubble {
+    max-width: 90%;
+    padding: 0.75rem;
+  }
+}
+
+/* Enhancement for mobile experience */
+@media (max-width: 768px) {
+  .mobile-full-height {
+    height: calc(100vh - 120px);
+  }
+
+  .mobile-bottom-sheet {
+    @apply fixed bottom-0 left-0 right-0 rounded-t-xl bg-background border-t border-border shadow-lg z-50;
+    height: 70vh;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-bottom-sheet-hidden {
+    transform: translateY(100%);
+  }
 }

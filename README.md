@@ -1,30 +1,121 @@
 # AI Copilot Web App
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+![AI Copilot](https://github.com/yourusername/ai-copilot-web-app/assets/yourusername/ai-copilot-banner.png)
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/chiragsahanis-projects/v0-ai-copilot-web-app)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/EzrCtH1zUGQ)
+A modern, responsive AI-powered customer support assistant with a sleek interface and intelligent conversation capabilities.
 
-## Overview
+## ✨ Features
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+- **Split-Screen Interface**: Intuitive layout with conversation list, chat panel, and AI copilot
+- **AI-Powered Responses**: Generate contextual responses using OpenAI's advanced models
+- **Knowledge Base Integration**: Access relevant information from the knowledge base to assist customers
+- **Responsive Design**: Fully responsive UI that works seamlessly on desktop and mobile devices
+- **Dark/Light Mode**: Toggle between themes based on preference
+- **Real-time Conversation**: Simulate typing indicators and live responses
 
-## Deployment
+## 🛠️ Tech Stack
 
-Your project is live at:
+- **Framework**: Next.js 14+ with App Router
+- **UI**: Tailwind CSS, shadcn/ui components
+- **AI Integration**: Vercel AI SDK with OpenAI
+- **State Management**: React Context API
+- **Styling**: Custom animations and responsive design
 
-**[https://vercel.com/chiragsahanis-projects/v0-ai-copilot-web-app](https://vercel.com/chiragsahanis-projects/v0-ai-copilot-web-app)**
+## 🚀 Getting Started
 
-## Build your app
+### Prerequisites
 
-Continue building your app on:
+- Node.js 18+
+- OpenAI API key
 
-**[https://v0.dev/chat/projects/EzrCtH1zUGQ](https://v0.dev/chat/projects/EzrCtH1zUGQ)**
+### Installation
 
-## How It Works
+1. Clone this repository:
+\`\`\`bash
+git clone https://github.com/yourusername/ai-copilot-web-app.git
+cd ai-copilot-web-app
+\`\`\`
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+2. Install dependencies:
+\`\`\`bash
+npm install
+\`\`\`
+
+3. Set up environment variables:
+Create a `.env.local` file in the root directory and add your OpenAI API key:
+\`\`\`
+OPENAI_API_KEY=your_api_key_here
+\`\`\`
+
+4. Run the development server:
+\`\`\`bash
+npm run dev
+\`\`\`
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
+
+## 📱 Responsive Design
+
+The app is designed to work seamlessly across all device sizes:
+- **Desktop**: Full split-screen interface with all panels visible
+- **Tablet**: Adaptable layout with collapsible panels
+- **Mobile**: Stack view with toggleable sidebar and AI copilot panel
+
+## 🧠 AI Capabilities
+
+- **Context-Aware Responses**: The AI understands the conversation context and provides relevant answers
+- **Knowledge Base Integration**: Automatically references knowledge articles for accurate information
+- **Smart Suggestions**: Offers intelligent suggestions based on conversation content
+- **Feedback System**: Allows agents to rate and improve AI responses
+
+## 🎨 Customization
+
+You can customize the app's appearance and behavior:
+- Edit the theme colors in `tailwind.config.ts`
+- Modify the AI behavior in `lib/ai-utils.ts`
+- Add or change mock data in `lib/sample-data.ts` and `lib/mock-data.ts`
+
+## 📄 License
+
+[MIT](LICENSE)
+
+## 🙏 Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Vercel AI SDK](https://sdk.vercel.ai/)
+- [OpenAI](https://openai.com/)
+\`\`\`
+
+Now, let's update the layout.tsx to set dark mode as the default theme:
+
+```typescriptreact file="app/layout.tsx"
+[v0-no-op-code-block-prefix]import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from 'next/font/google'
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
+
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata: Metadata = {
+  title: "AI Copilot",
+  description: "AI-powered customer support assistant",
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
