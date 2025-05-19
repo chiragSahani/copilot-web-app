@@ -1,8 +1,18 @@
 
-
 # 🤖✨ AI Copilot Web App
 
+<p align="center">
+  <a href="https://chirag-copilot.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Live Demo-00C7B7?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+  </a>
+</p>
+
 ![AI Copilot Banner](https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif)
+
+<p align="center">
+  <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659369/original-5eb2f9967073700b38a31280cc2c32e0_m0tb2u.gif" width="350" style="margin: 8px;" />
+  <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659361/1_C7Z3JYA_yScejWcK99ZfGQ_nzz0ad.gif" width="350" style="margin: 8px;" />
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14%2B-black?logo=next.js" alt="Next.js" />
@@ -11,18 +21,20 @@
   <img src="https://img.shields.io/badge/MIT-License-brightgreen" alt="MIT License" />
 </p>
 
-A modern, responsive, and intelligent customer support assistant powered by AI, with a sleek interface and smart conversation capabilities.
+---
+
+> A modern, responsive, and intelligent customer support assistant powered by AI, with a sleek interface and smart conversation capabilities.
 
 ---
 
 ## ✨ Features
 
-- 🖥️ **Split-Screen Interface**: Intuitive layout with conversation list, chat panel, and AI copilot  
-- 🤖 **AI-Powered Responses**: Instant, contextual replies using OpenAI’s advanced models  
-- 📚 **Knowledge Base Integration**: Instantly reference articles to assist users  
-- 🌗 **Dark/Light Mode**: Toggle themes for comfortable day or night use  
-- ⚡ **Real-Time Chat**: Typing indicators and live, dynamic responses  
-- 📱 **Responsive Design**: Seamless UX on desktop, tablet, and mobile  
+- 🖥️ **Split-Screen Interface:** Intuitive layout with conversation list, chat panel, and AI copilot  
+- 🤖 **AI-Powered Responses:** Instant, contextual replies using OpenAI’s advanced models  
+- 📚 **Knowledge Base Integration:** Instantly reference articles to assist users  
+- 🌗 **Dark/Light Mode:** Toggle themes for comfortable day or night use  
+- ⚡ **Real-Time Chat:** Typing indicators and live, dynamic responses  
+- 📱 **Responsive Design:** Seamless UX on desktop, tablet, and mobile  
 
 ---
 
@@ -74,20 +86,20 @@ Then open [http://localhost:3000](http://localhost:3000) 🚀
 
 ---
 
+## 📱 Responsive Layouts
 
-
-- **Desktop**: Full split-screen with all panels  
-- **Tablet**: Collapsible, adaptive layout  
-- **Mobile**: Handy stack view with toggles  
+- **Desktop:** Full split-screen with all panels  
+- **Tablet:** Collapsible, adaptive layout  
+- **Mobile:** Handy stack view with toggles  
 
 ---
 
 ## 🧠 AI Capabilities
 
-- 🤔 **Context-Aware**: Understands the flow and context of conversations  
-- 🧩 **Knowledge-Driven**: Pulls from knowledge base for precise answers  
-- 💡 **Smart Suggestions**: Recommends actions and responses  
-- ⭐ **Feedback Loop**: Agents can rate and improve AI answers  
+- 🤔 **Context-Aware:** Understands the flow and context of conversations  
+- 🧩 **Knowledge-Driven:** Pulls from knowledge base for precise answers  
+- 💡 **Smart Suggestions:** Recommends actions and responses  
+- ⭐ **Feedback Loop:** Agents can rate and improve AI answers  
 
 ---
 
@@ -116,7 +128,12 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <p align="center">
-  <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="160" alt="Thanks" /><br>
+  
   <b>Made with ❤️ by Chirag Sahani</b>
 </p>
 
+
+---
+
+You can copy and paste the above into your `README.md`.  
+If you want any more tweaks, let me know!
