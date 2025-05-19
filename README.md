@@ -1,90 +1,122 @@
-# AI Copilot Web App
 
-![AI Copilot](https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif)
 
-A modern, responsive AI-powered customer support assistant with a sleek interface and intelligent conversation capabilities.
+# 🤖✨ AI Copilot Web App
+
+![AI Copilot Banner](https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-14%2B-black?logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-2C3E50?style=flat&logo=tailwind-css&logoColor=38B2AC" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/OpenAI-API-blue?logo=openai" alt="OpenAI" />
+  <img src="https://img.shields.io/badge/MIT-License-brightgreen" alt="MIT License" />
+</p>
+
+A modern, responsive, and intelligent customer support assistant powered by AI, with a sleek interface and smart conversation capabilities.
+
+---
 
 ## ✨ Features
 
-- **Split-Screen Interface**: Intuitive layout with conversation list, chat panel, and AI copilot
-- **AI-Powered Responses**: Generate contextual responses using OpenAI's advanced models
-- **Knowledge Base Integration**: Access relevant information from the knowledge base to assist customers
-- **Responsive Design**: Fully responsive UI that works seamlessly on desktop and mobile devices
-- **Dark/Light Mode**: Toggle between themes based on preference
-- **Real-time Conversation**: Simulate typing indicators and live responses
+- 🖥️ **Split-Screen Interface**: Intuitive layout with conversation list, chat panel, and AI copilot  
+- 🤖 **AI-Powered Responses**: Instant, contextual replies using OpenAI’s advanced models  
+- 📚 **Knowledge Base Integration**: Instantly reference articles to assist users  
+- 🌗 **Dark/Light Mode**: Toggle themes for comfortable day or night use  
+- ⚡ **Real-Time Chat**: Typing indicators and live, dynamic responses  
+- 📱 **Responsive Design**: Seamless UX on desktop, tablet, and mobile  
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14+ with App Router
-- **UI**: Tailwind CSS, shadcn/ui components
-- **AI Integration**: Vercel AI SDK with OpenAI
-- **State Management**: React Context API
-- **Styling**: Custom animations and responsive design
+|  |  |
+|---|---|
+| **Framework** | ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) Next.js 14+ (App Router) |
+| **UI** | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css) Tailwind CSS, shadcn/ui |
+| **AI** | ![OpenAI](https://img.shields.io/badge/OpenAI%20SDK-blue?logo=openai) Vercel AI SDK, OpenAI |
+| **State** | ⚛️ React Context API |
+| **Styling** | 🎨 Custom animations, responsive design |
+
+---
 
 ## 🚀 Getting Started
 
-### Prerequisites
+<details>
+  <summary><strong>Setup Instructions</strong> 👇</summary>
 
-- Node.js 18+
-- OpenAI API key
+### ✅ Prerequisites
 
-### Installation
+- <img src="https://img.shields.io/badge/Node.js-18%2B-green?logo=node.js" alt="Node.js" /> Node.js 18+
+- <img src="https://img.shields.io/badge/OpenAI-API-blue?logo=openai" alt="OpenAI API" /> OpenAI API key
 
-1. Clone this repository:
-\`\`\`bash
+### 🏗️ Installation
+
+```bash
 git clone https://github.com/chiragSahani/copilot-web-app.git
 cd copilot-web-app
-\`\`\`
-
-2. Install dependencies:
-\`\`\`bash
 npm install
-\`\`\`
+```
 
-3. Set up environment variables:
-Create a `.env.local` file in the root directory and add your OpenAI API key:
-\`\`\`
+### 🔐 Configure Environment
+
+Create a `.env.local` file and add your OpenAI API key:
+```env
 OPENAI_API_KEY=your_api_key_here
-\`\`\`
+```
 
-4. Run the development server:
-\`\`\`bash
+### 🏃 Run the Development Server
+
+```bash
 npm run dev
-\`\`\`
+```
+Then open [http://localhost:3000](http://localhost:3000) 🚀
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
+</details>
 
-## 📱 Responsive Design
+---
 
-The app is designed to work seamlessly across all device sizes:
-- **Desktop**: Full split-screen interface with all panels visible
-- **Tablet**: Adaptable layout with collapsible panels
-- **Mobile**: Stack view with toggleable sidebar and AI copilot panel
+
+
+- **Desktop**: Full split-screen with all panels  
+- **Tablet**: Collapsible, adaptive layout  
+- **Mobile**: Handy stack view with toggles  
+
+---
 
 ## 🧠 AI Capabilities
 
-- **Context-Aware Responses**: The AI understands the conversation context and provides relevant answers
-- **Knowledge Base Integration**: Automatically references knowledge articles for accurate information
-- **Smart Suggestions**: Offers intelligent suggestions based on conversation content
-- **Feedback System**: Allows agents to rate and improve AI responses
+- 🤔 **Context-Aware**: Understands the flow and context of conversations  
+- 🧩 **Knowledge-Driven**: Pulls from knowledge base for precise answers  
+- 💡 **Smart Suggestions**: Recommends actions and responses  
+- ⭐ **Feedback Loop**: Agents can rate and improve AI answers  
+
+---
 
 ## 🎨 Customization
 
-You can customize the app's appearance and behavior:
-- Edit the theme colors in `tailwind.config.ts`
-- Modify the AI behavior in `lib/ai-utils.ts`
-- Add or change mock data in `lib/sample-data.ts` and `lib/mock-data.ts`
+- 🎨 Edit theme colors in `tailwind.config.ts`
+- 🤖 Modify AI logic in `lib/ai-utils.ts`
+- 🧪 Update mock data in `lib/sample-data.ts` & `lib/mock-data.ts`
+
+---
 
 ## 📄 License
 
-[MIT](LICENSE)
+This project is licensed under the [MIT License](LICENSE).
+
+---
 
 ## 🙏 Acknowledgements
 
-- [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Vercel AI SDK](https://sdk.vercel.ai/)
-- [OpenAI](https://openai.com/)
-\`\`\`
+- [Next.js](https://nextjs.org/)  
+- [Tailwind CSS](https://tailwindcss.com/)  
+- [shadcn/ui](https://ui.shadcn.com/)  
+- [Vercel AI SDK](https://sdk.vercel.ai/)  
+- [OpenAI](https://openai.com/)  
+
+---
+
+<p align="center">
+  <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="160" alt="Thanks" /><br>
+  <b>Made with ❤️ by Chirag Sahani</b>
+</p>
 
