@@ -7,7 +7,9 @@
   </a>
 </p>
 
-![AI Copilot Banner](https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif)
+<p align="center" >
+  <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659364/ded0bbdd8485e424327257405a86a884_q1ekeh.gif" alt="Demo">
+</p>
 
 <p align="center">
   <img src="https://res.cloudinary.com/dlyctssmy/image/upload/v1747659369/original-5eb2f9967073700b38a31280cc2c32e0_m0tb2u.gif" width="350" style="margin: 8px;" />
