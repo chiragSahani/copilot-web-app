@@ -135,7 +135,4 @@ This project is licensed under the [MIT License](LICENSE).
 </p>
 
 
----
 
-You can copy and paste the above into your `README.md`.  
-If you want any more tweaks, let me know!
