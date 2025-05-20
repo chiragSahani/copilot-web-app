@@ -1,8 +1,19 @@
 # 🌟🤖✨ AI Copilot Web App
 
-![](https://res.cloudinary.com/dlyctssmy/image/upload/v1747659361/1_C7Z3JYA_yScejWcK99ZfGQ_nzz0ad.gif)
+<!-- 🚀✨ LIVE DEMO — GRAPHICAL & INNOVATIVE ✨🚀 -->
 
----
+<p align="center">
+  <a href="https://chirag-copilot.vercel.app/" target="_blank" style="text-decoration: none;">
+    <span style="display: inline-block; background: linear-gradient(90deg, #06B6D4 0%, #18181B 100%); border-radius: 16px; padding: 24px 32px; box-shadow: 0 4px 24px rgba(6,182,212,0.15);">
+      <img src="https://media.giphy.com/media/1C7Z3JYAyScejWcK99/giphy.gif" alt="Live Demo Animation" width="220" style="vertical-align: middle; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 12px;" />
+      <br>
+      <img src="https://img.shields.io/badge/🚀%20Try%20Live%20Demo-18181B?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" style="margin: 8px 0;"/>
+      <br>
+      <img src="https://img.shields.io/badge/-CLICK%20TO%20LAUNCH%20AI%20COPILOT-06B6D4?style=for-the-badge&logo=rocket&logoColor=white" alt="Launch AI Copilot" />
+    </span>
+  </a>
+</p>
+
 
 ## 🏷️ Badges
 
