@@ -37,6 +37,12 @@
 | ![OpenAI](https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white) | ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-fff?logo=react&logoColor=black) |
 
 
+<p align="center">
+  <a href="https://chirag-copilot.vercel.app/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=vercel" alt="Live Demo" />
+  </a>
+</p>
+
 
 ## 🧭 Project Structure
 
